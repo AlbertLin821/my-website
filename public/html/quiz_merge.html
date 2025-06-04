@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>線上測驗</title>
+  <link rel="stylesheet" href="../css/new_style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="theme-toggle-switch">
+      <input type="checkbox" id="theme-toggle-checkbox" hidden>
+      <label for="theme-toggle-checkbox" class="toggle-switch-label" title="切換主題">
+        <span class="toggle-switch-inner"></span>
+        <span class="toggle-switch-slider"></span>
+      </label>
+    </div>
+    <div class="header">
+      <span class="brand-title">線上測驗系統</span>
+    </div>
+    <div class="select-area">
+      <label for="quiz-type" class="select-label">選擇測驗</label>
+      <div class="custom-select-wrapper">
+        <select id="quiz-type" class="custom-select">
+          <option value="erp">ERP 規劃師線上測驗</option>
+          <option value="rz">人資題庫測驗</option>
+        </select>
+      </div>
+    </div>
+    <h2 id="quiz-title">ERP 規劃師線上測驗</h2>
+    <div id="setup-section">
+      <div style="margin-bottom:10px;display:flex;align-items:center;gap:16px;">
+        <label style="font-size:0.98em;">
+          <input type="checkbox" id="only-unanswered-checkbox" style="margin-right:6px;vertical-align:middle;">只出未答過的題目
+        </label>
+        <button type="button" onclick="resetAnswered()" style="font-size:0.92em;padding:4px 10px 4px 10px;min-width:0;width:auto;">重置已答過紀錄</button>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 8px; gap: 8px;">
+        <label class="select-label" style="margin-bottom: 0; flex:1;">選擇章節</label>
+        <button id="select-all-chapters-btn" type="button" style="width:90px; min-width:70px; font-size:0.92em; padding:4px 0;">全選</button>
+        <button id="unselect-all-chapters-btn" type="button" style="width:90px; min-width:70px; font-size:0.92em; padding:4px 0;">取消全選</button>
+      </div>
+      <div id="chapter-checkboxes"></div>
+      <div class="input-row">
+        <label for="question-count" class="select-label">題目數量</label>
+        <input type="text" id="question-count" placeholder="請輸入題數" maxlength="3">
+      </div>
+      <button id="start-btn">開始答題</button>
+    </div>
+    <div id="quiz-section" style="display:none;"></div>
+    <div id="result-section" style="display:none;"></div>
+  </div>
+  <div id="font-size-float-btns" style="position: fixed; right: 32px; bottom: 32px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end;">
+    <div style="background: rgba(36,45,60,0.92); border-radius: 18px; box-shadow: 0 2px 8px #43d9bc33; padding: 12px 10px 10px 10px; display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+      <span id="font-size-plus" style="display:inline-block; width:38px; height:32px; background: linear-gradient(90deg, #43d9bc 20%, #5a6fd6 100%); color:#fff; font-size:1.2em; border-radius:15px; text-align:center; line-height:32px; cursor:pointer; user-select:none; margin-bottom:2px;">＋</span>
+      <span id="font-size-minus" style="display:inline-block; width:38px; height:32px; background: linear-gradient(90deg, #43d9bc 20%, #5a6fd6 100%); color:#fff; font-size:1.2em; border-radius:15px; text-align:center; line-height:32px; cursor:pointer; user-select:none;">－</span>
+    </div>
+  </div>
+  <script src="../js/quiz_merge.js"></script>
+</body>
+</html>
