@@ -413,17 +413,35 @@ function markQuestionsAsAnswered(questions) {
   questions.forEach(q => set.add(qKey(q)));
   saveAnsweredSet(set);
 }
+// ====== 新增：已答對題目記錄功能 ======
+function getCorrectSet() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem('correctQuestions') || '[]'));
+  } catch { return new Set(); }
+}
+function saveCorrectSet(set) {
+  localStorage.setItem('correctQuestions', JSON.stringify(Array.from(set)));
+}
+function markQuestionsAsCorrect(questions, userAnswers) {
+  const set = getCorrectSet();
+  questions.forEach((q, idx) => {
+    if (userAnswers[idx] === q.answer) set.add(qKey(q));
+  });
+  saveCorrectSet(set);
+}
 function qKey(q) {
   // 用章節+題目內容唯一標示
   return (q.chapter || '') + '::' + q.question;
 }
+// ====== 修改：只出未答對過的題目 ======
 function filterUnanswered(pool) {
   if (!document.getElementById('only-unanswered-checkbox')?.checked) return pool;
-  const set = getAnsweredSet();
+  const set = getCorrectSet();
   return pool.filter(q => !set.has(qKey(q)));
 }
 function resetAnswered() {
   localStorage.removeItem('answeredQuestions');
+  localStorage.removeItem('correctQuestions'); // 新增：重置已答對紀錄
   alert('已重置已答過題目紀錄！');
 }
 // ====== 章節勾選自動更新題目數量 ======
@@ -491,10 +509,11 @@ document.getElementById('start-btn').onclick = function() {
   userAnswers = Array(n).fill(null);
   showQuiz();
 };
-// ====== 修改檢查答案，作答後記錄已答過題目 ======
+// ====== 修改檢查答案，作答後記錄已答過題目與已答對題目 ======
 const _origCheckAnswers = checkAnswers;
 checkAnswers = function() {
   _origCheckAnswers();
   markQuestionsAsAnswered(selectedQuestions);
+  markQuestionsAsCorrect(selectedQuestions, userAnswers); // 新增：記錄本次答對題目
 };
  
